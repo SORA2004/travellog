@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- 메타 데이터 -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>나의 여행로그쓰기</title>
+  
+  <!-- 스타일시트 -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  
+  <!-- Font Awesome (필요한 경우) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- TinyMCE 에디터 JS -->
+  <script src="https://cdn.tiny.cloud/1/q326j1ylgmmus4ii172nzhzezhc8apuxcl3h0s2olfrxv5i2/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+</head>
+<body>
+  <!-- 헤더 -->
+  <header>
+    <div class="header-container flex items-center justify-between p-4 bg-white shadow-md">
+      <div class="logo">
+        <a href="index.html"><img src="mainbanner.jpg" alt="Travellog Logo" class="h-10"></a>
+      </div>
+      <nav class="header-menu flex items-center gap-4">
+        <a href="addblog.html" id="myTravelLogButton" class="text-blue-500 hover:underline">나의 여행로그쓰기</a>
+        <a href="#" id="openLoginModal" class="text-blue-500 hover:underline">로그인</a>
+        <div id="userProfile" class="flex items-center cursor-pointer" style="display: none;">
+          <img id="userPhoto" src="" alt="프로필 사진" class="w-8 h-8 rounded-full mr-2">
+          <span id="userName" class="text-gray-700"></span>
+        </div>
+        <div class="header-icons flex items-center gap-2">
+          <!-- 언어 변경 버튼 제거 -->
+          <!-- <a href="#"><i class="fas fa-globe text-gray-600"></i></a> -->
+          <a href="#"><i class="fas fa-bars text-gray-600"></i></a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 본문 -->
+  <div class="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden">
+    <div class="layout-container flex h-full grow flex-col">
+      <div class="px-8 flex flex-1 justify-center py-5">
+        <div class="layout-content-container flex flex-col w-full max-w-screen-lg py-5 flex-1">
+          <!-- 제목 입력란 -->
+          <div class="flex items-center px-4 py-3 gap-3">
+            <label class="flex flex-col min-w-40 h-full flex-1">
+              <input
+                id="blogTitle"
+                type="text"
+                placeholder="여행로그 제목을 입력하세요"
+                class="form-input w-full resize-none rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dce0e5] bg-white focus:border-[#dce0e5] min-h-12 placeholder:text-[#bbc4ce] p-[15px] text-lg font-bold leading-normal"
+              />
+            </label>
+          </div>
+
+          <!-- 간단한 요약 입력란 -->
+          <div class="flex items-center px-4 py-3 gap-3">
+            <label class="flex flex-col min-w-40 h-full flex-1">
+              <textarea
+                id="blogSummary"
+                placeholder="간단한 요약을 입력하세요 (예: 이번 여행의 하이라이트는...)"
+                class="form-input w-full resize-none rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dce0e5] bg-white focus:border-[#dce0e5] min-h-24 placeholder:text-[#bbc4ce] p-[15px] text-base font-normal leading-normal"
+              ></textarea>
+            </label>
+          </div>
+
+          <!-- 태그 입력란 -->
+          <div class="flex items-center px-4 py-3 gap-3">
+            <label class="flex flex-col w-full">
+              <span class="mb-2 text-sm font-medium text-gray-700">태그</span>
+              <input
+                id="blogTags"
+                type="text"
+                placeholder="태그를 입력하세요 (예: 이탈리아, 베네치아, 문화체험)"
+                class="form-input w-full resize-none rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dce0e5] bg-white focus:border-[#dce0e5] min-h-12 placeholder:text-[#bbc4ce] p-[15px] text-base font-normal leading-normal"
+              />
+            </label>
+          </div>
+
+          <!-- 여행 날짜 입력란 -->
+          <div class="flex items-center px-4 py-3 gap-3">
+            <label class="flex flex-col w-full">
+              <span class="mb-2 text-sm font-medium text-gray-700">출발 날짜</span>
+              <input
+                id="startDate"
+                type="date"
+                class="form-input w-full rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dce0e5] bg-white p-[15px] text-base font-normal leading-normal"
+              />
+            </label>
+          </div>
+          <div class="flex items-center px-4 py-3 gap-3">
+            <label class="flex flex-col w-full">
+              <span class="mb-2 text-sm font-medium text-gray-700">도착 날짜</span>
+              <input
+                id="endDate"
+                type="date"
+                class="form-input w-full rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dce0e5] bg-white p-[15px] text-base font-normal leading-normal"
+              />
+            </label>
+          </div>
+
+          <!-- 여행 장소 입력란 -->
+          <div class="flex items-center px-4 py-3 gap-3">
+            <label class="flex flex-col w-full">
+              <input
+                id="blogLocation"
+                type="text"
+                placeholder="여행한 장소를 입력하세요 (예: 서울, 대한민국)"
+                class="form-input w-full rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dce0e5] bg-white p-[15px] text-base font-normal leading-normal"
+              />
+            </label>
+          </div>
+
+          <!-- 여행 블로그 작성란 -->
+          <div class="flex items-center px-4 py-3 gap-3">
+            <label class="flex flex-col w-full">
+              <span class="mb-2 text-sm font-medium text-gray-700">여행 블로그 내용</span>
+              <textarea id="editor"></textarea>
+            </label>
+          </div>
+
+          <!-- '블로그 저장' 버튼 -->
+          <div class="flex px-4 py-3 justify-start">
+            <button id="saveBlogButton" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#1c80e3] text-white text-sm font-bold leading-normal">
+              <span class="truncate">블로그 저장</span>
+            </button>
+          </div>
+
+          <p id="status" class="text-[#637588] text-sm font-normal leading-normal pb-3 pt-1 px-4"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TinyMCE 초기화 스크립트 -->
+  <script>
+    tinymce.init({
+      selector: '#editor',
+      height: 500,
+      plugins: 'lists link image media table code help wordcount advlist autolink autosave emoticons fullscreen insertdatetime preview searchreplace visualblocks textcolor',
+      toolbar: 'undo redo | formatselect fontselect fontsizeselect | bold italic underline strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media emoticons | fullscreen preview',
+      menubar: false,
+      fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
+      image_title: true,
+      automatic_uploads: true,
+      images_upload_url: 'postAcceptor.php', // 이미지 업로드 핸들러 URL
+      file_picker_types: 'image',
+      file_picker_callback: function(callback, value, meta) {
+        if (meta.filetype == 'image') {
+          var input = document.createElement('input');
+          input.setAttribute('type', 'file');
+          input.setAttribute('accept', 'image/*');
+
+          input.onchange = function() {
+            var file = this.files[0];
+            var reader = new FileReader();
+            reader.onload = function() {
+              var id = 'blobid' + (new Date()).getTime();
+              var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+              var base64 = reader.result.split(',')[1];
+              var blobInfo = blobCache.create(id, file, base64);
+              blobCache.add(blobInfo);
+              callback(blobInfo.blobUri(), { title: file.name });
+            };
+            reader.readAsDataURL(file);
+          };
+          input.click();
+        }
+      }
+    });
+  </script>
+
+  <!-- 저장 버튼 클릭 시 처리 -->
+  <script type="module">
+    import { saveBlog } from './scripts/firebase.js';
+
+    document.getElementById('saveBlogButton').addEventListener('click', async (e) => {
+      e.preventDefault();
+
+      // 입력값 가져오기
+      const blogTitle = document.getElementById('blogTitle').value.trim();
+      const blogSummary = document.getElementById('blogSummary').value.trim();
+      const blogLocation = document.getElementById('blogLocation').value.trim();
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+
+      // 에디터 내용 가져오기
+      const blogContent = tinymce.get('editor').getContent();
+
+      // 태그 가져오기 (옵션)
+      const tagsInput = document.getElementById('blogTags');
+      const tags = tagsInput ? tagsInput.value.split(',').map(tag => tag.trim()) : [];
+
+      // 입력값 검증
+      if (!blogTitle || !blogSummary || !blogLocation || !startDate || !endDate || !blogContent) {
+        alert('모든 필드를 입력해주세요.');
+        return;
+      }
+
+      // Firestore에 저장
+      try {
+        await saveBlog(blogTitle, blogContent, blogLocation, startDate, endDate, blogSummary, tags);
+        alert('블로그가 저장되었습니다!');
+        // 저장 후 페이지 이동 등 필요한 동작 추가
+        window.location.href = 'index.html';
+      } catch (error) {
+        console.error('블로그 저장 중 오류 발생:', error);
+        alert('블로그 저장 중 오류가 발생했습니다.');
+      }
+    });
+  </script>
+
+  <!-- Firebase 및 기타 모듈 스크립트 포함 -->
+  <script type="module" src="scripts/firebase.js"></script>
+  <script type="module" src="scripts/header.js"></script>
+</body>
+</html>
