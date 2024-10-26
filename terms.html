@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- 기본 메타 태그 및 스타일 -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이용 약관 | Travellog</title>
+  
+  <!-- SEO 메타 태그 -->
+  <meta name="description" content="Travellog의 이용 약관을 확인하세요. 서비스 이용 시 지켜야 할 규칙과 조건을 명확히 안내합니다.">
+  
+  <!-- 구조화된 데이터 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "이용 약관",
+    "url": "https://www.travellog.com/terms.html",
+    "description": "Travellog의 이용 약관을 확인하세요. 서비스 이용 시 지켜야 할 규칙과 조건을 명확히 안내합니다."
+  }
+  </script>
+  
+  <!-- 스타일 및 폰트 링크 -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    /* 추가적인 커스텀 스타일 */
+    body {
+      font-family: 'Noto Sans', sans-serif;
+      background-color: #f9fafb; /* 연한 회색 배경 */
+    }
+    .header-divider {
+      border-color: #e5e7eb; /* 연한 회색 구분선 */
+    }
+    .footer {
+      background-color: #1f2937; /* 다크 그레이 배경 */
+      color: #ffffff;
+    }
+    .footer a {
+      color: #ffffff;
+    }
+    .footer a:hover {
+      color: #3b82f6; /* 파란색 호버 효과 */
+    }
+    /* 이용 약관 페이지 전용 스타일 */
+    .terms-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      background-color: #ffffff;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .terms-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #1f2937;
+    }
+    .terms-section {
+      margin-bottom: 2rem;
+    }
+    .terms-section h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #1f2937;
+    }
+    .terms-section p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #4b5563;
+    }
+    .terms-section ul {
+      list-style-type: disc;
+      padding-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+    .terms-section ul li {
+      margin-bottom: 0.5rem;
+    }
+    .toc-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #1f2937;
+    }
+    .toc-list a {
+      font-size: 1rem;
+      color: #3b82f6;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .toc-list a:hover {
+      color: #2563eb;
+      text-decoration: underline;
+    }
+    /* 반응형 디자인 조정 */
+    @media (max-width: 768px) {
+      .terms-container {
+        padding: 1rem;
+      }
+      .terms-title {
+        font-size: 2rem;
+      }
+      .terms-section h2 {
+        font-size: 1.5rem;
+      }
+      .toc-title {
+        font-size: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+  <div class="header-container">
+    <div class="container">
+      <div class="logo">
+        <a href="index.html" class="logo-text">
+          Travellog
+        </a>
+      </div>
+      <nav class="header-menu">
+        <a href="addblog.html" id="myTravelLogButton" class="nav-link">나의 여행로그쓰기</a>
+        <a href="#" id="openLoginModal" class="nav-link">로그인</a>
+       
+        <div id="userProfile" class="user-profile hidden">
+  <a href="profile.html" class="profile-link">
+    <img id="userPhoto" src="" alt="프로필 사진" class="user-photo">
+    <span id="userName" class="user-name"></span>
+  </a>
+  <button id="logoutButton" class="nav-link">로그아웃</button>
+</div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+  <!-- 헤더와 본문 사이 구분선 -->
+  <hr class="header-divider max-w-7xl mx-auto">
+
+  <!-- 메인 콘텐츠 -->
+  <main class="container mx-auto px-4 py-8 max-w-7xl">
+    <div class="terms-container">
+      <h1 class="terms-title">이용 약관</h1>
+      
+      <!-- 목차 -->
+      <nav class="mb-12">
+        <h2 class="toc-title">목차</h2>
+        <ul class="toc-list space-y-2">
+          <li><a href="#introduction">소개</a></li>
+          <li><a href="#service-terms">서비스 이용 조건</a></li>
+          <li><a href="#user-obligations">사용자 의무 및 제한 사항</a></li>
+          <li><a href="#service-provision">서비스 제공 및 변경</a></li>
+          <li><a href="#intellectual-property">지적 재산권</a></li>
+          <li><a href="#limitation-of-liability">책임의 한계</a></li>
+          <li><a href="#dispute-resolution">분쟁 해결</a></li>
+          <li><a href="#amendments">약관 수정</a></li>
+          <li><a href="#miscellaneous">기타 조항</a></li>
+        </ul>
+      </nav>
+
+      <!-- 각 섹션 -->
+      <section id="introduction" class="terms-section">
+        <h2>소개</h2>
+        <p>본 이용 약관은 Travellog (이하 "회사")가 제공하는 모든 서비스의 이용과 관련하여 회사와 이용자 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.</p>
+      </section>
+
+      <section id="service-terms" class="terms-section">
+        <h2>서비스 이용 조건</h2>
+        <p>회사는 이용자가 본 약관을 준수하여 서비스를 이용할 것을 조건으로 합니다. 이용자는 만 14세 이상이어야 하며, 법적 권한이 있는 개인 또는 법인이어야 합니다.</p>
+      </section>
+
+      <section id="user-obligations" class="terms-section">
+        <h2>사용자 의무 및 제한 사항</h2>
+        <p>이용자는 서비스를 이용함에 있어 다음 각 호의 행위를 하여서는 안 됩니다:</p>
+        <ul>
+          <li>법령 또는 공공질서 및 미풍양속에 위반되는 행위</li>
+          <li>타인의 명예를 훼손하거나 불이익을 주는 행위</li>
+          <li>허위 정보를 제공하거나, 타인의 개인정보를 무단으로 수집하는 행위</li>
+          <li>서비스의 안정적인 운영을 방해하는 행위</li>
+        </ul>
+      </section>
+
+      <section id="service-provision" class="terms-section">
+        <h2>서비스 제공 및 변경</h2>
+        <p>회사는 서비스의 내용, 제공 방식 등을 변경할 수 있으며, 이 경우 사전에 이용자에게 통지합니다. 회사는 서비스 제공을 중단할 수 있는 권리를 보유합니다.</p>
+      </section>
+
+      <section id="intellectual-property" class="terms-section">
+        <h2>지적 재산권</h2>
+        <p>회사가 제공하는 모든 콘텐츠의 저작권 및 지적 재산권은 회사에 귀속됩니다. 이용자는 회사의 사전 동의 없이 이를 복제, 배포, 수정, 전송할 수 없습니다.</p>
+      </section>
+
+      <section id="limitation-of-liability" class="terms-section">
+        <h2>책임의 한계</h2>
+        <p>회사는 서비스 이용과 관련하여 발생하는 모든 손해에 대해 책임을 지지 않습니다. 이용자는 서비스 이용 시 자신의 책임 하에 이용해야 합니다.</p>
+      </section>
+
+      <section id="dispute-resolution" class="terms-section">
+        <h2>분쟁 해결</h2>
+        <p>본 약관과 관련된 분쟁은 대한민국 법을 준거법으로 하며, 서울중앙지방법원을 전속 관할 법원으로 합니다.</p>
+      </section>
+
+      <section id="amendments" class="terms-section">
+        <h2>약관 수정</h2>
+        <p>회사는 필요하다고 판단되는 경우 언제든지 약관을 수정할 수 있습니다. 약관이 수정될 경우, 수정된 약관을 홈페이지에 게시하여 통지합니다.</p>
+      </section>
+
+      <section id="miscellaneous" class="terms-section">
+        <h2>기타 조항</h2>
+        <p>본 약관은 서비스 이용과 관련된 전체 계약을 구성하며, 본 약관과 관련하여 발생하는 모든 분쟁은 상기 명시된 관할 법원을 통해 해결됩니다.</p>
+      </section>
+
+      <!-- 결론 -->
+      <section class="terms-section">
+        <h2>결론</h2>
+        <p>Travellog의 서비스를 이용함으로써 이용자는 본 이용 약관에 동의하게 됩니다. 약관의 내용을 충분히 이해하고 동의한 후 서비스를 이용해 주시기 바랍니다.</p>
+      </section>
+    </div>
+  </main>
+
+  <!-- 푸터 -->
+  <footer class="footer py-8">
+    <div class="footer-container max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-start">
+      <!-- 로고 및 슬로건 -->
+      <div class="footer-logo mb-6 md:mb-0">
+        <h4 class="text-2xl font-bold mb-2">Travellog</h4>
+        <p>나의 멋진 여행을 공유하고, 전 세계와 함께 여행하세요!</p>
+      </div>
+      
+      <!-- 주요 링크 -->
+      <div class="footer-links mb-6 md:mb-0">
+        <h5 class="text-xl font-semibold mb-4">메뉴</h5>
+        <ul class="space-y-2">
+          <li><a href="index.html" class="hover:underline">홈</a></li>
+          <li><a href="terms.html" class="hover:underline">이용 약관</a></li>
+          <li><a href="privacy.html" class="hover:underline">개인정보 보호정책</a></li>
+        </ul>
+      </div>
+      
+      <!-- 소셜 미디어 아이콘 -->
+      <div class="footer-social">
+        <h5 class="text-xl font-semibold mb-4">Follow Us</h5>
+        <div class="flex space-x-4">
+          <a href="https://www.facebook.com" target="_blank" aria-label="페이스북" class="text-white hover:text-blue-400 text-2xl">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://www.twitter.com" target="_blank" aria-label="트위터" class="text-white hover:text-blue-300 text-2xl">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="https://www.instagram.com" target="_blank" aria-label="인스타그램" class="text-white hover:text-pink-500 text-2xl">
+            <i class="fab fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 저작권 정보 -->
+    <div class="footer-bottom mt-8 border-t border-gray-700 pt-4 text-center text-gray-400">
+      <p>© 2024 Travellog. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- 구조화된 데이터 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Travellog",
+    "url": "https://www.travellog.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://www.travellog.com/search-results.html?query={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- 스크립트 파일 포함 -->
+  <script type="module" src="scripts/firebase.js"></script>
+  <script type="module" src="scripts/header.js"></script>
+  <script type="module" src="scripts/blogList.js"></script>
+  <script type="module" src="scripts/search.js"></script>
+</body>
+</html>

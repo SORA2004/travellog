@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loading... - Travellog</title> <!-- 기본 제목을 로딩 중으로 설정 -->
+  <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" />
+
+  <!-- Tailwind CSS -->
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+
+  <!-- Font Awesome for Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+	
+	<!-- blog-detail.css 파일 링크 -->
+  <link rel="stylesheet" href="styles/blog-detail.css" />
+
+  <!-- Firebase Scripts -->
+  <script type="module" src="scripts/firebase.js"></script>
+  <script type="module" src="scripts/header.js"></script>
+  <script type="module" src="scripts/blog-detail.js"></script>
+
+  
+  <!-- Firebase Scripts -->
+  <script type="module" src="scripts/firebase.js"></script>
+  <script type="module" src="scripts/header.js"></script>
+  <script type="module" src="scripts/blog-detail.js"></script> <!-- 추가된 스크립트 -->
+
+</head>
+<body class="bg-slate-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 pt-20"> <!-- 상단 패딩 추가 -->
+
+  <!-- 헤더 로드 (header.js에서 동적으로 로드됨) -->
+  <header></header>
+
+  <!-- 읽기 진행률 바 -->
+  <div
+    class="fixed top-0 left-0 h-1 bg-indigo-600"
+    id="progressBar"
+    style="width: 0%;"
+  ></div>
+
+  <!-- 블로그 상세 내용 -->
+  <div class="flex flex-1 justify-center py-5">
+    <div class="layout-content-container flex flex-col max-w-7xl flex-1 px-4 sm:px-6 lg:px-8">
+      <!-- 블로그 헤더 섹션 -->
+      <div class="container mx-auto">
+        <div class="p-4 sm:p-6 lg:p-8">
+          <div
+            id="coverImageContainer"
+            class="flex min-h-[240px] flex-col gap-6 bg-cover bg-center bg-no-repeat sm:gap-8 sm:rounded-xl items-start justify-end px-4 pb-10 sm:px-10"
+            style='background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("https://via.placeholder.com/1200x600");'
+          >
+            <div class="flex flex-col gap-2 text-left">
+              <h1
+                id="postTitle"
+                class="text-white text-4xl font-black leading-tight tracking-[-0.033em] sm:text-5xl sm:font-black sm:leading-tight sm:tracking-[-0.033em]"
+              >
+                <!-- 동적 제목 -->
+              </h1>
+              <h2
+                id="postMeta"
+                class="text-white text-sm font-normal leading-normal sm:text-base sm:font-normal sm:leading-normal"
+              >
+                <!-- 동적 메타 정보: 작성자, 작성 시간 -->
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 블로그 메트릭스 (조회수, 좋아요 등) -->
+      <div class="flex flex-wrap gap-4 p-4">
+        <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border border-[#cfdfe7]">
+          <p class="text-[#0d161b] text-base font-medium leading-normal">조회수</p>
+          <p id="postViews" class="text-[#0d161b] tracking-light text-2xl font-bold leading-tight">0</p>
+        </div>
+        <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border border-[#cfdfe7]">
+          <p class="text-[#0d161b] text-base font-medium leading-normal">좋아요</p>
+          <p id="postLikes" class="text-[#0d161b] tracking-light text-2xl font-bold leading-tight">0</p>
+        </div>
+        <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border border-[#cfdfe7]">
+          <p class="text-[#0d161b] text-base font-medium leading-normal">여행지</p>
+          <p id="postDestinations" class="text-[#0d161b] tracking-light text-2xl font-bold leading-tight">-</p>
+        </div>
+        <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border border-[#cfdfe7]">
+          <p class="text-[#0d161b] text-base font-medium leading-normal">여행 기간</p>
+          <p id="postTravelPeriods" class="text-[#0d161b] tracking-light text-2xl font-bold leading-tight">-</p>
+        </div>
+      </div>
+
+      <!-- 블로그 내용 -->
+      <div class="px-4 sm:px-6 lg:px-8">
+        <p id="postContent" class="text-[#0d161b] text-base font-normal leading-normal pb-3 pt-1">
+          <!-- 동적 콘텐츠 -->
+        </p>
+      </div>
+
+      <!-- 추가 블로그 내용 -->
+      <div class="px-4 sm:px-6 lg:px-8">
+        <p id="postAdditionalContent" class="text-[#0d161b] text-base font-normal leading-normal pb-3 pt-1">
+          <!-- 동적 추가 콘텐츠 -->
+        </p>
+      </div>
+
+      <!-- Tags 섹션 -->
+      <div class="px-4 pb-3 pt-5">
+        <h2 class="text-[#0d161b] text-[22px] font-bold leading-tight tracking-[-0.015em] mb-3">
+          태그
+        </h2>
+        <div id="postTags" class="flex gap-3 flex-wrap">
+          <!-- 동적 태그 -->
+        </div>
+      </div>
+      
+      <!-- 댓글 섹션 -->
+      <div class="p-4">
+        <div
+          class="flex flex-1 flex-col items-start justify-between gap-4 rounded-xl border border-[#cfdfe7] bg-slate-50 p-5 sm:flex-row sm:items-center"
+        >
+          <div class="flex flex-col gap-1">
+            <p class="text-[#0d161b] text-base font-bold leading-tight">댓글</p>
+            <p class="text-[#4c7d9a] text-base font-normal leading-normal">
+              아티클에 대한 생각을 남겨보세요!
+            </p>
+          </div>
+          <button
+            id="commentButton"
+            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 bg-[#139cec] text-slate-50 text-sm font-medium leading-normal"
+          >
+            <span class="truncate">댓글 쓰기</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 댓글 작성 폼 (초기 숨김) -->
+      <div id="commentFormContainer" class="px-4 p-4 hidden">
+        <div class="flex flex-col gap-4 rounded-xl border border-[#cfdfe7] bg-slate-50 p-5">
+          <h3 class="text-[#0d161b] text-lg font-semibold">댓글 쓰기</h3>
+          <textarea
+            id="commentInput"
+            class="w-full p-3 border border-[#cfdfe7] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            rows="4"
+            placeholder="댓글을 입력하세요..."
+          ></textarea>
+          <div class="flex justify-end gap-2">
+            <button
+              id="cancelCommentButton"
+              class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400"
+            >
+              취소
+            </button>
+            <button
+              id="submitCommentButton"
+              class="px-4 py-2 bg-indigo-600 text-slate-50 rounded-lg hover:bg-indigo-700"
+            >
+              작성
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 댓글 목록 섹션 -->
+      <div id="commentsSection" class="px-4 py-5">
+        <h3 class="text-[#0d161b] text-lg font-semibold mb-4">댓글</h3>
+        <div id="commentsList" class="space-y-4">
+          <!-- 동적 댓글 목록 -->
+        </div>
+      </div>
+
+      <!-- "여러 표현들" 섹션 -->
+      <div class="px-4 pb-3 pt-5">
+        <h2 class="text-[#0d161b] text-[22px] font-bold leading-tight tracking-[-0.015em] mb-3">
+          여러 표현들
+        </h2>
+        <div class="flex flex-wrap gap-4">
+          
+          <!-- 좋아요 (Like) -->
+
+<div id="likeButton" class="flex items-center justify-center gap-2 px-3 py-2 cursor-pointer">
+  <i id="likeIcon" class="fas fa-heart text-[#4c7d9a] text-2xl"></i>
+  <p id="reactionLikes" class="text-[#4c7d9a] text-[13px] font-bold leading-normal tracking-[0.015em]">0</p>
+</div>
+          
+          <!-- 댓글 (Comment) -->
+          <div id="commentReactionButton" class="flex items-center justify-center gap-2 px-3 py-2 cursor-pointer hover:text-green-500">
+            <i class="fas fa-comment text-[#4c7d9a] text-2xl"></i>
+            <p id="reactionComments" class="text-[#4c7d9a] text-[13px] font-bold leading-normal tracking-[0.015em]">0</p>
+          </div>
+          
+          <!-- 북마크 (Bookmark) -->
+          <div id="bookmarkButton" class="flex items-center justify-center gap-2 px-3 py-2 cursor-pointer hover:text-yellow-500">
+            <i class="fas fa-bookmark text-[#4c7d9a] text-2xl"></i>
+            <p id="reactionBookmarks" class="text-[#4c7d9a] text-[13px] font-bold leading-normal tracking-[0.015em]">0</p>
+          </div>
+          
+          <!-- 신고 (Report) -->
+          <div id="reportButton" class="flex items-center justify-center gap-2 px-3 py-2 cursor-pointer hover:text-gray-500">
+            <i class="fas fa-flag text-[#4c7d9a] text-2xl"></i>
+            <p id="reactionReports" class="text-[#4c7d9a] text-[13px] font-bold leading-normal tracking-[0.015em]">0</p>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 푸터 로드 (header.js에서 동적으로 로드됨) -->
+  <footer></footer>
+</body>
+</html>

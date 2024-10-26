@@ -1,0 +1,65 @@
+<!-- header.html -->
+<header class="fixed top-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-md z-50">
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-2 sm:py-4 lg:py-6">
+    <!-- 로고 -->
+    <div class="flex-shrink-0">
+      <a href="index.html" class="text-2xl font-bold text-indigo-600 hover:text-indigo-800">
+        Travellog
+      </a>
+    </div>
+    
+    <!-- 네비게이션 메뉴 -->
+    <nav class="flex items-center space-x-4">
+      <!-- 버튼 그룹 -->
+      <div class="nav-links flex items-center space-x-4">
+        <a href="addblog.html" id="myTravelLogButton" class="nav-link text-blue-500 hover:underline">나의 여행로그쓰기</a>
+        <!-- 로그인 버튼 -->
+        
+      </div>
+      
+      <!-- 사용자 프로필 (로그인 상태일 경우 표시) -->
+      <div id="userProfile" class="user-profile hidden relative flex items-center space-x-4">
+        <a href="profile.html" class="profile-link flex items-center space-x-2">
+          <img id="userPhoto" src="" alt="프로필 사진" class="w-8 h-8 rounded-full">
+          <span id="userName" class="text-gray-700 dark:text-gray-200"></span>
+        </a>
+        <button id="logoutButton" class="text-red-500 hover:underline">로그아웃</button>
+        
+        <!-- 드롭다운 메뉴 -->
+        <div id="profileDropdown" class="profile-dropdown absolute right-0 mt-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg hidden">
+          <a href="profile.html" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">프로필 보기</a>
+          <button id="logoutButtonDropdown" class="block w-full text-left px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">로그아웃</button>
+        </div>
+      </div>
+    </nav>
+  </div>
+  
+  <!-- 로그인 모달 -->
+  <div id="loginModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-80 relative">
+      <!-- 닫기 버튼 -->
+      <button id="closeLoginModal" class="absolute top-2 right-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 focus:outline-none" aria-label="Close Modal">
+        &times;
+      </button>
+      
+      <h2 id="modalTitle" class="text-xl font-semibold mb-4 text-center">로그인이 필요합니다</h2>
+      <p id="modalDescription" class="mb-6 text-center">댓글을 작성하려면 로그인해주세요.</p>
+      
+      <div class="flex flex-col space-y-4">
+        <!-- Google 로그인 버튼 -->
+        <button id="google-login-btn" class="flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo" class="w-5 h-5 mr-2">
+          Google 로그인
+        </button>
+        
+        <!-- 익명 로그인 버튼 -->
+        <button id="anonymous-login-btn" class="flex items-center justify-center bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-lg">
+          <i class="fas fa-user mr-2"></i> 익명 로그인
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 모달 오버레이 -->
+  <div id="modalOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+</header>

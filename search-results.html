@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>검색 결과 - Travel Blogs</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Firebase SDK 및 스크립트 파일 포함 -->
+    <!-- defer 속성을 추가하여 DOM이 완전히 로드된 후에 스크립트가 실행되도록 함 -->
+    <script type="module" src="scripts/firebase.js" defer></script>
+    <script type="module" src="scripts/header.js" defer></script>
+    <script type="module" src="scripts/search.js" defer></script>
+</head>
+<body class="pt-20">
+    <!-- 로그인 모달 -->
+    <div id="modalOverlay" class="modal-overlay"></div>
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Travellog</h2>
+            <p>여행을 기록하고 공유하다!</p>
+            <button id="google-login-btn" class="login-button google flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo" class="w-5 h-5">
+                Google로 시작하기
+            </button>
+            <button id="anonymous-login-btn" class="login-button guest flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded mt-2">
+                <i class="fas fa-user"></i> Guest로 시작하기
+            </button>
+        </div>
+    </div>
+
+    <!-- 헤더 -->
+    <header>
+        <div class="header-container flex items-center justify-between p-4 bg-white shadow-md">
+            <div class="logo">
+                <!-- 텍스트 기반 로고 -->
+                <a href="index.html" class="text-2xl font-bold text-indigo-600 hover:text-indigo-800">
+                    Travellog
+                </a>
+            </div>
+            <nav class="header-menu flex items-center gap-4">
+                <a href="addblog.html" id="myTravelLogButton" class="text-blue-500 hover:underline">나의 여행로그쓰기</a>
+                <a href="#" id="openLoginModal" class="text-blue-500 hover:underline">로그인</a>
+                
+                <!-- 프로필 섹션 -->
+                <div id="userProfile" class="flex items-center" style="display: none;">
+                    <img id="userPhoto" src="" alt="프로필 사진" class="w-8 h-8 rounded-full mr-2">
+                    <span id="userName" class="text-gray-700"></span>
+                    <button id="logoutButton" class="text-red-500 hover:underline">로그아웃</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 검색바 중앙 배치 및 디자인 개선 -->
+    <div class="flex justify-center py-10 mt-20">
+        <div class="relative w-full max-w-2xl">
+            <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="여행가고 싶은 곳을 검색해보세요" 
+                class="w-full p-4 pl-4 pr-16 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+            />
+            <button 
+                id="searchButton" 
+                class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white rounded-full px-6 py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+            >
+                검색
+            </button>
+        </div>
+    </div>
+
+    <!-- 검색 결과 및 필터 섹션 -->
+    <div class="flex flex-1 px-10">
+        <!-- 왼쪽 필터 섹션 -->
+        <div class="flex flex-col w-80 mr-8">
+            <h3 class="text-[#0d161b] text-lg font-bold mb-4">필터</h3>
+            <div class="flex flex-col gap-4">
+                <label class="flex items-center gap-4 rounded-xl border border-solid border-[#cfdfe7] p-4">
+                    <input
+                        type="radio"
+                        class="h-5 w-5 border-2 border-[#cfdfe7] bg-transparent text-transparent checked:border-blue-500 checked:bg-blue-500 focus:outline-none"
+                        name="filter"
+                        value="Travelogue"
+                        checked
+                    />
+                    <span class="text-[#0d161b] text-sm font-medium">Travelogue</span>
+                </label>
+                <!-- 추가적인 필터 옵션을 여기 추가할 수 있습니다 -->
+            </div>
+        </div>
+
+        <!-- 오른쪽 메인 컨텐츠 섹션 -->
+        <div class="flex flex-col flex-1">
+            <!-- 검색 결과 제목 -->
+            <h3 id="searchResultsTitle" class="text-[#0d161b] text-lg font-bold mb-4">검색 결과</h3>
+            
+            <!-- 검색 결과 목록 -->
+            <div id="searchResults" class="flex flex-col gap-6 bg-slate-50 p-6 rounded-lg shadow">
+                <!-- 검색 결과가 여기에 표시됩니다 -->
+            </div>
+
+            <!-- 페이징 버튼 추가 -->
+            <div id="pagination" class="flex justify-center mt-6">
+                <!-- 페이지 번호 버튼이 여기에 생성됩니다 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+    <footer class="footer py-8">
+        <div class="footer-container max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-start">
+
+            <div class="footer-logo mb-6 md:mb-0">
+                <h4 class="text-2xl font-bold mb-2">Travellog</h4>
+                <p>나의 멋진 여행을 공유하고, 전 세계와 함께 여행하세요!</p>
+            </div>
+        
+            <div class="footer-links mb-6 md:mb-0">
+                <h5 class="text-xl font-semibold mb-4">메뉴</h5>
+                <ul class="space-y-2">
+                    <li><a href="index.html" class="hover:underline">홈</a></li>
+                    <li><a href="terms.html" class="hover:underline">약관</a></li>
+                    <li><a href="privacy.html" class="hover:underline">개인정보 보호정책</a></li>
+                </ul>
+            </div>
+        
+            <div class="footer-social">
+                <h5 class="text-xl font-semibold mb-4">Follow Us</h5>
+                <div class="flex space-x-4">
+                    <a href="https://www.facebook.com" target="_blank" aria-label="페이스북" class="text-blue-600 hover:text-blue-800 text-2xl">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.twitter.com" target="_blank" aria-label="트위터" class="text-blue-400 hover:text-blue-600 text-2xl">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.instagram.com" target="_blank" aria-label="인스타그램" class="text-pink-500 hover:text-pink-700 text-2xl">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    
+        <div class="footer-bottom mt-8 border-t border-gray-300 pt-4 text-center text-gray-500">
+            <p>© 2024 Travellog. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 추가적인 스타일 -->
+    <style>
+        /* 모달 스타일 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 1000;
+        }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            display: none;
+            z-index: 1001;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .modal-content {
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* 푸터 스타일 */
+        footer {
+            background-color: #f8f9fa;
+            padding: 2rem 1rem;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-section {
+            margin: 1rem;
+            min-width: 200px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            color: #0d161b;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            text-decoration: none;
+            color: #0d161b;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: #139cec;
+        }
+
+        .social-icons a {
+            margin-right: 0.5rem;
+            color: #0d161b;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #139cec;
+        }
+    </style>
+</body>
+</html>

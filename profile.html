@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유저 프로필</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+
+  <body class="pt-20">
+
+  <body class="pt-20"> <!-- 상단 패딩 추가 (헤더 높이에 맞게 조정) -->
+
+    <div id="headerContainer"></div>
+    <div
+      class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden"
+      style="font-family: 'Plus Jakarta Sans', 'Noto Sans', sans-serif;"
+    >
+      <div class="layout-container flex h-full grow flex-col">
+        <!-- 헤더 삽입 위치 -->
+
+        <header>
+  <div id="headerContainer">
+    <img id="userPhoto" src="기본이미지경로" alt="프로필 사진" />
+    <span id="userName">사용자 이름</span>
+    <span id="userEmail">사용자 이메일</span> <!-- 여기에 추가 -->
+  </div>
+</header>
+
+
+       <div class="px-40 flex flex-1 justify-center py-5">
+
+        <header></header>
+
+        <div class="px-40 flex flex-1 justify-center py-5">
+
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex p-4 @container">
+              <div class="flex w-full flex-col gap-4 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center">
+                <div class="flex gap-4">
+                  <div
+                    id="profileImageContainer"
+                    class="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32"
+                    style='background-image: url("https://cdn.usegalileo.ai/stability/29274efa-9547-4ca7-b2af-b18a22f9456e.png");'
+                  ></div>
+                  <p id="profileName" class="text-[#0d161b] text-[22px] font-bold leading-tight tracking-[-0.015em]">사용자 이름</p>
+                </div>
+                <button
+                  id="editProfileButton"
+                  class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#e7eff3] text-[#0d161b] text-sm font-bold leading-normal tracking-[0.015em] w-full max-w-[480px] @[480px]:w-auto"
+                >
+                  <span class="truncate">프로필 사진 편집</span>
+                </button>
+                <!-- 숨겨진 파일 입력 -->
+                <input type="file" id="profileImageInput" accept="image/*" class="hidden" />
+              </div>
+            </div>
+            <p class="text-[#4c7d9a] text-sm font-normal leading-normal pb-3 pt-1 px-4"></p>
+            <h3 class="text-[#0d161b] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">계정</h3>
+            <!-- 이메일 섹션 -->
+            <div class="flex items-center gap-4 bg-slate-50 px-4 min-h-[72px] py-2 justify-between">
+              <div class="flex items-center gap-4">
+                <div class="text-[#0d161b] flex items-center justify-center rounded-lg bg-[#e7eff3] shrink-0 size-12" data-icon="Package" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,32l80.34,44-29.77,16.3-80.35-44ZM128,120,47.66,76l33.9-18.56,80.34,44ZM40,90l80,43.78v85.79L40,175.82Zm176,85.78h0l-80,43.79V133.82l32-17.51V152a8,8,0,0,0,16,0V107.55L216,90v85.77Z"
+                    ></path>
+                  </svg>
+                </div>
+                <div class="flex flex-col justify-center">
+                  <p class="text-[#0d161b] text-base font-medium leading-normal line-clamp-1">이메일</p>
+                  <p id="profileEmail" class="text-[#4c7d9a] text-sm font-normal leading-normal line-clamp-2">사용자 이메일</p>
+                </div>
+              </div>
+              <!-- Change 버튼 제거 -->
+            </div>
+            <!-- 패스워드 섹션 -->
+            <div class="flex items-center gap-4 bg-slate-50 px-4 min-h-[72px] py-2 justify-between">
+              <div class="flex items-center gap-4">
+                <div class="text-[#0d161b] flex items-center justify-center rounded-lg bg-[#e7eff3] shrink-0 size-12" data-icon="Key" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M160,16A80.07,80.07,0,0,0,83.91,120.78L26.34,178.34A8,8,0,0,0,24,184v40a8,8,0,0,0,8,8H72a8,8,0,0,0,8-8V208H96a8,8,0,0,0,8-8V184h16a8,8,0,0,0,5.66-2.34l9.56-9.57A80,80,0,1,0,160,16Zm32-84a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"
+                    ></path>
+                  </svg>
+                </div>
+                <div class="flex flex-col justify-center">
+                  <p class="text-[#0d161b] text-base font-medium leading-normal line-clamp-1">패스워드</p>
+                  <p class="text-[#4c7d9a] text-sm font-normal leading-normal line-clamp-2">************</p>
+                </div>
+              </div>
+              <!-- Change 버튼 제거 -->
+            </div>
+            <!-- 계정 삭제 섹션 -->
+            <div class="flex items-center gap-4 bg-slate-50 px-4 min-h-14 justify-between">
+              <div class="flex items-center gap-4">
+                <div class="text-[#0d161b] flex items-center justify-center rounded-lg bg-[#e7eff3] shrink-0 size-10" data-icon="Trash" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"
+                    ></path>
+                  </svg>
+                </div>
+                <p class="text-[#0d161b] text-base font-normal leading-normal flex-1 truncate">계정 삭제</p>
+              </div>
+              <div class="shrink-0">
+                <button
+                  id="deleteAccountButton"
+                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 bg-[#e7eff3] text-[#0d161b] text-sm font-medium leading-normal w-fit"
+                >
+                  <span class="truncate">삭제</span>
+                </button>
+              </div>
+            </div>
+
+             <h3 class="text-[#0d161b] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">블로그</h3>
+
+            <!-- Blogs 섹션은 변경 사항 없음 -->
+            <div id="userBlogsContainer" class="px-4">
+              <!-- 사용자 블로그가 여기에 동적으로 추가됩니다 -->
+            </div>
+
+			  
+			<!-- **북마크 섹션 추가** -->
+            <h3 class="text-[#0d161b] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">북마크</h3>
+            <div id="userBookmarksContainer" class="px-4">
+              <!-- 사용자가 북마크한 블로그가 여기에 동적으로 추가됩니다 -->
+            </div>
+  
+
+    
+            
+              </div>
+              <div class="shrink-0">
+                <div class="text-[#0d161b] flex size-7 items-center justify-center" data-icon="CaretRight" data-size="24px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <!-- Instagram 섹션 추가됨 -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="scripts/firebase.js"></script>
+    <script type="module" src="scripts/header.js"></script>
+    <script type="module" src="scripts/profile.js"></script>
+  </body>
+</html>

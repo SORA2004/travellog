@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- 메타 데이터 -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>나의 여행로그쓰기</title>
+  
+  <!-- 스타일시트 -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  
+  <!-- Font Awesome (필요한 경우) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- Quill 에디터 CSS 및 JS 추가 -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  
+  <!-- Firebase SDK 및 firebase.js 포함 -->
+  <!-- 필요한 스크립트는 defer 속성을 사용하여 body 끝부분에서 로드되도록 수정 -->
+</head>
+<body class="pt-20">
+  
+  <!-- 로그인 모달 -->
+  <div id="modalOverlay" class="modal-overlay"></div>
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Travellog</h2>
+      <p>여행을 기록하고 공유하다!</p>
+      <button id="google-login-btn" class="login-button google flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo" class="w-5 h-5">
+        Google로 시작하기
+      </button>
+      <button id="anonymous-login-btn" class="login-button guest flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded mt-2">
+        <i class="fas fa-user"></i> Guest로 시작하기
+      </button>
+    </div>
+  </div>
+
+  <!-- 성공 모달 오버레이 -->
+<div id="successModalOverlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
+
+<!-- 성공 모달 -->
+<div id="successModal" class="fixed inset-0 flex items-center justify-center hidden z-50">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+    <h2 class="text-xl font-semibold mb-4">글이 성공적으로 게시되었습니다!</h2>
+    <button id="closeModalButton" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
+      확인
+    </button>
+  </div>
+</div>
+
+  <!-- 정적 헤더 -->
+  <header class="fixed top-0 left-0 w-full z-50">
+    <div class="header-container flex items-center justify-between p-4 bg-white shadow-md">
+      <div class="logo">
+        <!-- 텍스트 기반 로고로 변경 -->
+        <a href="index.html" class="text-2xl font-bold text-indigo-600 hover:text-indigo-800">
+          Travellog
+        </a>
+      </div>
+      <nav class="header-menu flex items-center gap-4">
+        <a href="addblog.html" id="myTravelLogButton" class="text-blue-500 hover:underline">나의 여행로그쓰기</a>
+        <a href="#" id="openLoginModal" class="text-blue-500 hover:underline">로그인</a>
+        
+        <!-- 수정된 프로필 섹션 -->
+        <div id="userProfile" class="user-profile hidden">
+          <a href="profile.html" class="profile-link flex items-center gap-2">
+            <img id="userPhoto" src="" alt="프로필 사진" class="user-photo w-8 h-8 rounded-full">
+            <span id="userName" class="user-name text-gray-700"></span>
+          </a>
+          <button id="logoutButton" class="text-red-500 hover:underline mt-2">로그아웃</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 본문 -->
+  <main class="max-w-7xl mx-auto px-4 py-24">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full">
+      <!-- 제목 입력란 -->
+      <div class="mb-4">
+        <label for="blogTitle" class="block text-gray-700 font-medium mb-2">제목<span class="text-red-500">*</span></label>
+        <input
+          id="blogTitle"
+          type="text"
+          placeholder="여행로그 제목을 입력하세요"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        <p id="titleError" class="text-red-500 text-sm mt-1 hidden">제목을 입력해주세요.</p>
+      </div>
+
+      <!-- 간단한 요약 입력란 -->
+      <div class="mb-4">
+        <label for="blogSummary" class="block text-gray-700 font-medium mb-2">간단한 요약<span class="text-red-500">*</span></label>
+        <textarea
+          id="blogSummary"
+          placeholder="간단한 요약을 입력하세요 (예: 이번 여행의 하이라이트는...)"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none h-24"
+        ></textarea>
+        <p id="summaryError" class="text-red-500 text-sm mt-1 hidden">요약을 입력해주세요.</p>
+      </div>
+
+       <!-- 태그 입력란 -->
+      <div class="mb-4">
+        <label for="blogTags" class="block text-gray-700 font-medium mb-2">태그</label>
+        <input
+          id="blogTags"
+          type="text"
+          placeholder="태그를 입력하세요 (예: 이탈리아, 베네치아, 문화체험)"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        <p class="text-gray-500 text-sm mt-1">콤마(,)로 구분하여 여러 개의 태그를 입력할 수 있습니다.</p>
+      </div>
+
+      <!-- 여행 날짜 입력란 -->
+      <div class="flex flex-col md:flex-row md:gap-4 mb-4">
+        <div class="flex-1">
+          <label for="startDate" class="block text-gray-700 font-medium mb-2">출발 날짜<span class="text-red-500">*</span></label>
+          <input
+            id="startDate"
+            type="date"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+          <p id="startDateError" class="text-red-500 text-sm mt-1 hidden">출발 날짜를 선택해주세요.</p>
+        </div>
+        <div class="flex-1">
+          <label for="endDate" class="block text-gray-700 font-medium mb-2">도착 날짜<span class="text-red-500">*</span></label>
+          <input
+            id="endDate"
+            type="date"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+          <p id="endDateError" class="text-red-500 text-sm mt-1 hidden">도착 날짜를 선택해주세요.</p>
+        </div>
+      </div>
+
+      <!-- 여행 장소 입력란 -->
+      <div class="mb-4">
+        <label for="blogLocation" class="block text-gray-700 font-medium mb-2">여행 장소<span class="text-red-500">*</span></label>
+        <input
+          id="blogLocation"
+          type="text"
+          placeholder="여행한 장소를 입력하세요 (예: 서울, 대한민국)"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        <p id="locationError" class="text-red-500 text-sm mt-1 hidden">여행 장소를 입력해주세요.</p>
+      </div>
+
+        <!-- 커버 이미지 업로드 입력란 -->
+      <div class="mb-4">
+        <label for="coverImage" class="block text-gray-700 font-medium mb-2">커버 이미지</label>
+        <input
+          id="coverImage"
+          type="file"
+          accept="image/*"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        <p class="text-gray-500 text-sm mt-1">이미지를 업로드하면 커버 이미지로 설정됩니다.</p>
+        <!-- 이미지 미리보기 -->
+        <img id="coverImagePreview" src="#" alt="커버 이미지 미리보기" class="mt-4 hidden max-h-48 rounded-lg">
+      </div>
+
+      <!-- 여행 블로그 작성란 (Quill 에디터) -->
+      <div class="mb-4">
+        <label for="editor-container" class="block text-gray-700 font-medium mb-2">여행 블로그 내용<span class="text-red-500">*</span></label>
+        <div id="editor-container" class="bg-white rounded-lg border border-gray-300 p-3 min-h-[300px] focus:outline-none"></div>
+        <p id="contentError" class="text-red-500 text-sm mt-1 hidden">내용을 입력해주세요.</p>
+      </div>
+
+      <!-- '블로그 게시' 버튼 -->
+      <div class="flex justify-center">
+        <button id="saveBlogButton" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-200">
+          블로그 게시
+        </button>
+      </div>
+
+      <!-- 상태 메시지 및 로딩 스피너 -->
+      <div class="mt-4 text-center">
+        <p id="status" class="text-gray-500 text-sm"></p>
+        <div id="loadingSpinner" class="hidden flex justify-center items-center mt-4">
+          <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 푸터 (옵션) -->
+  <footer class="bg-white shadow-inner">
+    <div class="container mx-auto p-4 text-center text-gray-600">
+      © 2024 Travellog. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- 추가적인 스타일 -->
+  <style>
+    /* 로딩 스피너 스타일 */
+    .loader {
+      border-top-color: #3498db;
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* 프로필 드롭다운 메뉴 표시 */
+    .profile-dropdown.hidden {
+      display: none;
+    }
+
+    .profile-dropdown:not(.hidden) {
+      display: block;
+    }
+	  
+	  .hidden {
+  display: none;
+}
+
+    /* 모달 오버레이 */
+    #successModalOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      z-index: 40;
+    }
+
+    /* 모달 창 */
+#successModal {
+  position: fixed;
+  inset: 0;
+  display: none; /* 기본적으로 숨김 */
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+/* 모달이 활성화되었을 때 표시 */
+#successModal.active,
+#successModalOverlay.active {
+  display: flex;
+}
+  </style>
+
+  <!-- Firebase 및 기타 모듈 스크립트 포함 -->
+  <!-- 스크립트는 body 끝부분에 defer 속성을 사용하여 로드 -->
+  <script type="module" src="scripts/firebase.js" defer></script>
+  <script type="module" src="scripts/header.js" defer></script>
+  <script type="module" src="scripts/addBlog.js" defer></script>
+</body>
+</html>
